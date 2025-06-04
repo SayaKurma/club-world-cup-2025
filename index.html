@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piala Dunia Antarklub FIFA 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0f172a',
+                        darker: '#020617',
+                        primary: '#facc15',
+                        secondary: '#1e293b',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .trophy-icon {
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+        
+        .highlighted {
+            position: relative;
+        }
+        
+        .highlighted::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #facc15, transparent);
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .bracket-connector {
+            position: relative;
+        }
+        
+        .bracket-connector::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            width: 15px;
+            height: 2px;
+            background-color: #334155;
+        }
+        
+        .bracket-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #334155;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Header -->
+    <header class="border-b border-secondary sticky top-0 z-50 bg-dark/90 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-trophy text-primary text-2xl trophy-icon"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-white">
+                    <span class="text-primary">FIFA</span> Piala Dunia Antarklub 2025
+                </h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="matches.html" class="text-gray-300 hover:text-primary transition">Pertandingan</a>
+                <a href="#standings" class="text-gray-300 hover:text-primary transition">Klasemen Grup</a>
+                <a href="#knockout" class="text-gray-300 hover:text-primary transition">Fase Gugur</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition">Top Skor</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-300 hover:text-primary focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker px-4 py-2">
+            <div class="flex flex-col space-y-3">
+                <a href="matches.html" class="text-gray-300 hover:text-primary transition py-1">Pertandingan</a>
+                <a href="#standings" class="text-gray-300 hover:text-primary transition py-1">Klasemen Grup</a>
+                <a href="#knockout" class="text-gray-300 hover:text-primary transition py-1">Fase Gugur</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition py-1">Top Skor</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative bg-gradient-to-b from-secondary to-dark py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-primary">Piala Dunia Antarklub</span><br>
+                    <span class="highlighted text-white">15 Juni - 13 Juli 2025</span>
+                </h1>
+                <p class="text-gray-300 mb-6">Kompetisi sepak bola klub terbaik diadakan di Amerika Serikat</p>
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center bg-darker px-4 py-2 rounded-lg">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                        <span class="text-sm">Amerika Serikat</span>
+                    </div>
+                    <div class="flex items-center bg-darker px-4 py-2 rounded-lg">
+                        <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                        <span class="text-sm">32 Tim</span>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-primary rounded-full opacity-20 blur-xl"></div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/2025_FIFA_Club_World_Cup.svg" alt="Logo FIFA" class="relative w-64 h-64 mx-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pertandingan -->
+    <section id="recent" class="py-12 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-white">
+                    Pertandingan
+                </h2>
+                <div class="ml-auto text-sm text-gray-400">
+                    <span class="hidden md:inline">Terakhir diperbarui: </span>
+                    Menunggu dimulainya turnamen
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <a href="matches.html" class="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-dark transition">
+                    Lihat Semua Pertandingan
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Klasemen Grup -->
+    <section id="standings" class="py-12 bg-darker">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">
+                Klasemen Fase Grup
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Grup A -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup A</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Palmeiras</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Porto</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Al-Ahly</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Inter Miami</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grup B -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup B</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Paris SG</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Atlético Madrid</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Botafogo</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Seattle Sounders</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup C -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup C</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Bayern München</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Benfica</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Boca Juniors</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Auckland City</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup D -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup D</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Flamengo</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Chelsea</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Los Angeles FC</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Espérance</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup E -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup E</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Inter Milan</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">River Plate</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Monterrey</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Urawa Red</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup F -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup F</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Borussia Dortmund</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Fluminense</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Ulsan HD</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Mamelodi</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup G -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup G</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Manchester City</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Juventus</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Al-Ain</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">Wydad</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grup H -->
+                <div class="bg-dark rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 bg-secondary border-b border-darker">
+                        <h3 class="font-bold text-white">Grup H</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="text-gray-400 border-b border-darker">
+                                        <th class="text-left pb-2">Tim</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">M</th>
+                                        <th class="text-center pb-2">S</th>
+                                        <th class="text-center pb-2">K</th>
+                                        <th class="text-center pb-2">SG</th>
+                                        <th class="text-center pb-2">P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Real Madrid</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Al-Hilal</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr class="border-b border-darker">
+                                        <td class="py-2">Pachuca</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2">RB Salzburg</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                        <td class="text-center">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fase Gugur -->
+    <section id="knockout" class="py-12 bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">
+                Fase Gugur
+            </h2>
+            
+            <div class="overflow-x-auto">
+                <div class="min-w-max">
+                    <!-- Babak 16 Besar -->
+                    <div class="text-center mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-4">Babak 16 Besar</h3>
+                        <div class="grid grid-cols-8 gap-4">
+                            <!-- Pertandingan 1 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup A</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup B</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 2 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup C</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup D</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 3 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup E</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup F</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 4 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup G</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup H</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Pertandingan 5 -->
+                            <div class="col-span-2 col-start-3">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup B</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup A</div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 6 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup D</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup C</div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 7 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup F</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup E</div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 flex items-center justify-center text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                            
+                            <!-- Pertandingan 8 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Juara Grup H</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Runner-up Grup G</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Perempat Final -->
+                    <div class="text-center mb-8 mt-12">
+                        <h3 class="text-xl font-bold text-primary mb-4">Perempat Final</h3>
+                        <div class="grid grid-cols-4 gap-8">
+                            <!-- PF 1 -->
+                            <div class="col-span-2 relative">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang Pertandingan 1</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang Pertandingan 2</div>
+                                </div>
+                                <div class="absolute top-1/2 right-0 transform -translate-y-1/2 bracket-connector"></div>
+                            </div>
+                            
+                            <!-- PF 2 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang Pertandingan 3</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang Pertandingan 4</div>
+                                </div>
+                            </div>
+                            
+                            <!-- PF 3 -->
+                            <div class="col-span-2 relative">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang Pertandingan 5</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang Pertandingan 6</div>
+                                </div>
+                                <div class="absolute top-1/2 right-0 transform -translate-y-1/2 bracket-connector"></div>
+                            </div>
+                            
+                            <!-- PF 4 -->
+                            <div class="col-span-2">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang Pertandingan 7</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang Pertandingan 8</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Semi-final -->
+                    <div class="text-center mb-8 mt-12">
+                        <h3 class="text-xl font-bold text-primary mb-4">Semi-final</h3>
+                        <div class="grid grid-cols-2 gap-12">
+                            <!-- SF 1 -->
+                            <div class="relative">
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang PF 1</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang PF 2</div>
+                                </div>
+                                <div class="absolute top-1/2 right-0 transform -translate-y-1/2 bracket-connector"></div>
+                            </div>
+                            
+                            <!-- SF 2 -->
+                            <div>
+                                <div class="bg-secondary rounded-lg p-4">
+                                    <div class="font-medium mb-1">Pemenang PF 3</div>
+                                    <div class="text-xs text-gray-400 mb-4">vs</div>
+                                    <div class="font-medium">Pemenang PF 4</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Final -->
+                    <div class="text-center mt-12">
+                        <h3 class="text-xl font-bold text-primary mb-4">Final</h3>
+                        <div class="flex justify-center">
+                            <div class="w-full max-w-md bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-lg p-6">
+                                <div class="font-bold text-lg mb-4">13 Juli 2025</div>
+                                <div class="font-medium text-xl mb-1">Pemenang SF 1</div>
+                                <div class="text-sm text-gray-400 mb-4">vs</div>
+                                <div class="font-medium text-xl">Pemenang SF 2</div>
+                                <div class="mt-4 text-xs text-gray-400">
+                                    <i class="fas fa-trophy mr-1"></i> Juara Dunia
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Skor -->
+    <section id="scorers" class="py-12 bg-darker">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">
+                Top Skor
+            </h2>
+            
+            <div class="bg-dark rounded-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-gray-400 border-b border-secondary">
+                                <th class="text-left py-4 px-6">#</th>
+                                <th class="text-left py-4 px-6">Pemain</th>
+                                <th class="text-left py-4 px-6">Tim</th>
+                                <th class="text-right py-4 px-6">Gol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-4 px-6 text-center" colspan="4">Belum ada data top skor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-secondary py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-trophy text-primary text-xl"></i>
+                    <span class="font-bold">Piala Dunia Antarklub FIFA 2025</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                © 2025 FIFA - Hak Cipta Dilindungi
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
