@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Piala Dunia Antarklub FIFA 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0f172a',
+                        darker: '#020617',
+                        primary: '#facc15',
+                        secondary: '#1e293b',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .trophy-icon {
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Header -->
+    <header class="border-b border-secondary sticky top-0 z-50 bg-dark/90 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-trophy text-primary text-2xl trophy-icon"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-white">
+                    <span class="text-primary">FIFA</span> Piala Dunia Antarklub 2025
+                </h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="match.html" class="text-gray-300 hover:text-primary transition">Hasil</a>
+                <a href="jadwal.html" class="text-gray-300 hover:text-primary transition font-bold">Jadwal</a>
+                <a href="#knockout" class="text-gray-300 hover:text-primary transition">Fase Gugur</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition">Top Skor</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-300 hover:text-primary focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker px-4 py-2">
+            <div class="flex flex-col space-y-3">
+                <a href="matches.html" class="text-gray-300 hover:text-primary transition py-1">Pertandingan</a>
+                <a href="#standings" class="text-gray-300 hover:text-primary transition py-1">Klasemen Grup</a>
+                <a href="#knockout" class="text-gray-300 hover:text-primary transition py-1">Fase Gugur</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition py-1">Top Skor</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Schedule Section -->
+    <section class="py-12 bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">Jadwal Pertandingan</h2>
+
+            <div class="day-section mb-12">
+                <h3 class="text-xl font-bold text-primary mb-6">Minggu, 15 Juni 2025</h3>
+                <div class="match-card bg-secondary rounded-lg p-6 transition duration-300">
+                    <div class="text-center text-[11px] text-gray-400 mb-3">Penyisihan Grup</div>
+                    <div class="flex items-center justify-between">
+                        <div class="team flex items-center space-x-3">
+                            <span class="text-lg font-semibold text-white">AHL</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/en/7/70/Al_Ahly_SC_logo.svg" alt="AHL Logo" class="w-10 h-10 object-contain">
+                        </div>
+                        <div class="match-info text-center flex-1">
+                            <div class="time text-2xl font-bold text-white">08:00</div>
+                        </div>
+                        <div class="team flex items-center space-x-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/5/5c/Inter_Miami_CF_logo.svg" alt="MIA Logo" class="w-10 h-10 object-contain">
+                            <span class="text-lg font-semibold text-white">MIA</span>
+                        </div>
+                    </div>
+                    <div class="stadium-details text-center text-[11px] text-gray-400 mt-3">
+                        Grup A • Stadion Hard Rock (Miami)
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-section mb-12">
+                <h3 class="text-xl font-bold text-primary mb-6">Senin, 16 Juni 2025</h3>
+                <div class="match-card bg-secondary rounded-lg p-6 transition duration-300">
+                    <div class="text-center text-[11px] text-gray-400 mb-3">Penyisihan Grup</div>
+                    <div class="flex items-center justify-between">
+                        <div class="team flex items-center space-x-3">
+                            <span class="text-lg font-semibold text-white">BAY</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/FC_Bayern_M%C3%BCnchen_logo_%282024%29.svg" alt="BAY Logo" class="w-10 h-10 object-contain">
+                        </div>
+                        <div class="match-info text-center flex-1">
+                            <div class="time text-2xl font-bold text-white">00:00</div>
+                        </div>
+                        <div class="team flex items-center space-x-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/5/53/New_Auckland_City_FC_logo_%28updated_2022%29.png" alt="AKL Logo" class="w-10 h-10 object-contain">
+                            <span class="text-lg font-semibold text-white">AKL</span>
+                        </div>
+                    </div>
+                    <div class="stadium-details text-center text-[11px] text-gray-400 mt-3">
+                        Grup C • Stadion TQL (Cincinnati)
+                    </div>
+                </div>
+
+                <div class="match-card bg-secondary rounded-lg p-6 transition duration-300 mt-6">
+                    <div class="text-center text-[11px] text-gray-400 mb-3">Penyisihan Grup</div>
+                    <div class="flex items-center justify-between">
+                        <div class="team flex items-center space-x-3">
+                            <span class="text-lg font-semibold text-white">PSG</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg" alt="PSG Logo" class="w-10 h-10 object-contain">
+                        </div>
+                        <div class="match-info text-center flex-1">
+                            <div class="time text-2xl font-bold text-white">03:00</div>
+                        </div>
+                        <div class="team flex items-center space-x-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Atletico_Madrid_Logo_2024.svg" alt="ATM Logo" class="w-10 h-10 object-contain">
+                            <span class="text-lg font-semibold text-white">ATM</span>
+                        </div>
+                    </div>
+                    <div class="stadium-details text-center text-[11px] text-gray-400 mt-3">
+                        Grup B • Stadion Rose Bowl (Los Angeles)
+                    </div>
+                </div>
+
+                <div class="match-card bg-secondary rounded-lg p-6 transition duration-300 mt-6">
+                    <div class="text-center text-[11px] text-gray-400 mb-3">Penyisihan Grup</div>
+                    <div class="flex items-center justify-between">
+                        <div class="team flex items-center space-x-3">
+                            <span class="text-lg font-semibold text-white">SEP</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Palmeiras_logo.svg/800px-Palmeiras_logo.svg.png" alt="SEP Logo" class="w-10 h-10 object-contain">
+                        </div>
+                        <div class="match-info text-center flex-1">
+                            <div class="time text-2xl font-bold text-white">06:00</div>
+                        </div>
+                        <div class="team flex items-center space-x-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/FC_Porto.svg/800px-FC_Porto.svg.png" alt="POR Logo" class="w-10 h-10 object-contain">
+                            <span class="text-lg font-semibold text-white">POR</span>
+                        </div>
+                    </div>
+                    <div class="stadium-details text-center text-[11px] text-gray-400 mt-3">
+                        Grup A • Stadion MetLife (New York)
+                    </div>
+                </div>
+
+                <div class="match-card bg-secondary rounded-lg p-6 transition duration-300 mt-6">
+                    <div class="text-center text-[11px] text-gray-400 mb-3">Penyisihan Grup</div>
+                    <div class="flex items-center justify-between">
+                        <div class="team flex items-center space-x-3">
+                            <span class="text-lg font-semibold text-white">BOT</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg/800px-Botafogo_de_Futebol_e_Regatas_logo.svg.png" alt="BOT Logo" class="w-10 h-10 object-contain">
+                        </div>
+                        <div class="match-info text-center flex-1">
+                            <div class="time text-2xl font-bold text-white">10:00</div>
+                        </div>
+                        <div class="team flex items-center space-x-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/84/Seattle_Sounders_logo.svg/800px-Seattle_Sounders_logo.svg.png" alt="SEA Logo" class="w-10 h-10 object-contain">
+                            <span class="text-lg font-semibold text-white">SEA</span>
+                        </div>
+                    </div>
+                    <div class="stadium-details text-center text-[11px] text-gray-400 mt-3">
+                        Grup B • Lapangan Lumen (Seattle)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-secondary py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-trophy text-primary text-xl"></i>
+                    <span class="font-bold">Piala Dunia Antarklub FIFA 2025</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                © 2025 FIFA - Hak Cipta Dilindungi
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
