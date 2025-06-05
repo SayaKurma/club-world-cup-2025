@@ -1,0 +1,27 @@
+{
+  "matches": [
+    {
+      "date": null,
+      "round": null,
+      "matchNumber": null,
+      "team1": {
+        "name": null,
+        "score": null,
+        "logo": null
+      },
+      "team2": {
+        "name": null,
+        "score": null,
+        "logo": null
+      },
+      "score": null
+    }
+  ],
+
+  "clubs": [
+    {
+      "name": null,
+      "logo": null
+    }
+  ]
+}
