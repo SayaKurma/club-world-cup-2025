@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Pertandingan - Piala Dunia Antarklub FIFA 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0f172a',
+                        darker: '#020617',
+                        primary: '#facc15',
+                        secondary: '#1e293b',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .trophy-icon {
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+
+        .match-card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .score-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .score {
+            background: #334155;
+            color: #e2e8f0;
+            min-width: 60px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .no-data {
+            font-size: 1em;
+            color: #e2e8f0;
+            text-align: center;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 24px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .filter-option {
+            margin-bottom: 16px;
+        }
+
+        .filter-option h3 {
+            font-weight: 600;
+            color: #facc15;
+            margin-bottom: 8px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination-controls select {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .pagination-controls button {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .pagination-controls button:hover {
+            background: #facc15;
+            color: #0f172a;
+        }
+
+        .tab-nav-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            white-space: nowrap;
+            flex: 1;
+            padding-bottom: 4px;
+        }
+
+        .tab-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-nav button {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.85em;
+            flex-shrink: 0;
+        }
+
+        .tab-nav button.active {
+            background: #facc15;
+            color: #0f172a;
+        }
+
+        .tab-nav button:hover {
+            background: #facc15;
+            color: #0f172a;
+        }
+
+        .scroll-btn {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: none;
+        }
+
+        .scroll-btn:hover {
+            background: #facc15;
+            color: #0f172a;
+        }
+
+        .club-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .club-filter .club-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .club-filter img {
+            width: 40px;
+            height: 40px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+        }
+
+        .club-filter img.selected {
+            border-color: #facc15;
+        }
+
+        .club-filter .club-name {
+            font-size: 0.8em;
+            color: #e2e8f0;
+            margin-top: 4px;
+            text-align: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .filter-buttons button {
+            background: #facc15;
+            color: #0f172a;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .filter-buttons button.reset {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .filter-buttons button:hover {
+            background: #eab308;
+        }
+
+        .filter-buttons button.reset:hover {
+            background: #475569;
+        }
+
+        @media (max-width: 700px) {
+            .match-card {
+                padding: 12px;
+            }
+
+            .team-name {
+                font-size: 0.9em;
+                justify-content: center;
+            }
+
+            .score-block {
+                gap: 8px;
+                margin: 0 8px;
+            }
+
+            .score {
+                min-width: 50px;
+                padding: 4px 8px;
+                font-size: 0.9em;
+            }
+
+            .logo {
+                width: 20px;
+                height: 20px;
+            }
+
+            .modal-content {
+                padding: 16px;
+            }
+
+            .scroll-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark min-h-screen">
+    <!-- Header -->
+    <header class="border-b border-secondary sticky top-0 z-50 bg-dark/90 backdrop-blur-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-trophy text-primary text-2xl trophy-icon"></i>
+                <h1 class="text-xl md:text-2xl font-bold text-white">
+                    <span class="text-primary">FIFA</span> Piala Dunia Antarklub FIFA 2025
+                </h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-300 hover:text-primary transition">Beranda</a>
+                <a href="match.html" class="text-gray-300 hover:text-primary transition">Hasil</a>
+                <a href="jadwal.html" class="text-gray-300 hover:text-primary transition">Jadwal</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition">Top Skor</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-300 hover:text-primary focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker px-4 py-2">
+            <div class="flex flex-col space-y-3">
+                <a href="index.html" class="text-gray-300 hover:text-primary transition">Beranda</a>
+                <a href="match.html" class="text-gray-300 hover:text-primary transition py-1">Hasil</a>
+                <a href="jadwal.html" class="text-gray-300 hover:text-primary transition py-1">Jadwal</a>
+                <a href="#scorers" class="text-gray-300 hover:text-primary transition py-1">Top Skor</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Match Results Section -->
+    <section id="results" class="py-12 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-white text-center">
+                    Hasil Pertandingan
+                </h2>
+                <button id="filter-toggle" class="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-dark transition">
+                    Filter
+                </button>
+            </div>
+            <div id="round-subtitle" class="subtitle">Semua Babak</div>
+            <div id="date-subtitle" class="subtitle">Semua Tanggal</div>
+            <div id="no-data" class="no-data">Data tidak ditemukan</div>
+
+            <div id="match-list"></div>
+        </div>
+    </section>
+
+    <!-- Filter Modal -->
+    <div id="filter-modal" class="modal">
+        <div class="modal-content">
+            <i class="fas fa-times close-modal" id="close-modal"></i>
+            <h2 class="text-xl font-bold text-white mb-4">Filter Hasil Pertandingan</h2>
+
+            <div class="filter-option">
+                <h3>Berdasarkan Tanggal</h3>
+                <div class="pagination-controls">
+                    <button id="prev-date"><i class="fas fa-chevron-left"></i></button>
+                    <select id="date-selector">
+                        <option value="all">Semua Tanggal</option>
+                        <option value="2025-06-15">15 Jun 2025</option>
+                        <option value="2025-06-16">16 Jun 2025</option>
+                        <option value="2025-06-17">17 Jun 2025</option>
+                        <option value="2025-06-18">18 Jun 2025</option>
+                        <option value="2025-06-19">19 Jun 2025</option>
+                        <option value="2025-06-20">20 Jun 2025</option>
+                        <option value="2025-06-21">21 Jun 2025</option>
+                        <option value="2025-06-22">22 Jun 2025</option>
+                        <option value="2025-06-23">23 Jun 2025</option>
+                        <option value="2025-06-24">24 Jun 2025</option>
+                        <option value="2025-06-25">25 Jun 2025</option>
+                        <option value="2025-06-26">26 Jun 2025</option>
+                        <option value="2025-06-27">27 Jun 2025</option>
+                        <option value="2025-06-28">28 Jun 2025</option>
+                        <option value="2025-06-29">29 Jun 2025</option>
+                        <option value="2025-06-30">30 Jun 2025</option>
+                        <option value="2025-07-01">1 Jul 2025</option>
+                        <option value="2025-07-02">2 Jul 2025</option>
+                        <option value="2025-07-03">3 Jul 2025</option>
+                        <option value="2025-07-04">4 Jul 2025</option>
+                        <option value="2025-07-05">5 Jul 2025</option>
+                        <option value="2025-07-06">6 Jul 2025</option>
+                        <option value="2025-07-07">7 Jul 2025</option>
+                        <option value="2025-07-08">8 Jul 2025</option>
+                        <option value="2025-07-09">9 Jul 2025</option>
+                        <option value="2025-07-10">10 Jul 2025</option>
+                        <option value="2025-07-11">11 Jul 2025</option>
+                        <option value="2025-07-12">12 Jul 2025</option>
+                        <option value="2025-07-13">13 Jul 2025</option>
+                        <option value="2025-07-14">14 Jul 2025</option>
+                    </select>
+                    <button id="next-date"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="filter-option">
+                <h3>Berdasarkan Babak</h3>
+                <div class="tab-nav-container">
+                    <button class="scroll-btn scroll-left"><i class="fas fa-chevron-left"></i></button>
+                    <div class="tab-nav">
+                        <button class="tab-btn active" data-round="all">Semua</button>
+                        <button class="tab-btn" data-round="Penyisihan Grup">Penyisihan Grup</button>
+                        <button class="tab-btn" data-round="Babak 16 Besar">Babak 16 Besar</button>
+                        <button class="tab-btn" data-round="Perempat Final">Perempat Final</button>
+                        <button class="tab-btn" data-round="Semi-final">Semi-final</button>
+                        <button class="tab-btn" data-round="Final">Final</button>
+                    </div>
+                    <button class="scroll-btn scroll-right"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="filter-option">
+                <h3>Berdasarkan Klub</h3>
+                <p class="text-gray-400 mb-2">Pilih logo klub untuk memfilter pertandingan</p>
+                <div id="club-filter" class="club-filter"></div>
+            </div>
+
+            <div class="filter-buttons">
+                <button id="apply-filter">Terapkan</button>
+                <button id="reset-filter" class="reset">Reset Filter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-secondary py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fas fa-trophy text-primary text-xl"></i>
+                    <span class="font-bold">Piala Dunia Antarklub FIFA 2025</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-sm text-gray-500">
+                © 2025 FIFA - Hak Cipta Dilindungi
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Filter modal toggle
+        const filterToggle = document.getElementById('filter-toggle');
+        const filterModal = document.getElementById('filter-modal');
+        const closeModal = document.getElementById('close-modal');
+        filterToggle.addEventListener('click', () => {
+            filterModal.style.display = 'flex';
+        });
+        closeModal.addEventListener('click', () => {
+            filterModal.style.display = 'none';
+        });
+
+        // Load match data
+        let matchesData = [];
+        let clubsData = [];
+        async function fetchMatches() {
+            try {
+                const response = await fetch('pertandingan.json');
+                const data = await response.json();
+                matchesData = data.matches;
+                clubsData = data.clubs;
+                renderMatches(matchesData);
+                renderClubFilter(clubsData);
+                initializeFilters();
+            } catch (error) {
+                console.error('Error loading matches:', error);
+                document.getElementById('no-data').style.display = 'block';
+                document.getElementById('round-subtitle').style.display = 'none';
+                document.getElementById('date-subtitle').style.display = 'none';
+            }
+        }
+
+        function renderMatches(matches) {
+            const matchList = document.getElementById('match-list');
+            matchList.innerHTML = '';
+            matches.forEach(match => {
+                const matchCard = document.createElement('div');
+                matchCard.className = 'match-card';
+                matchCard.dataset.date = match.date;
+                matchCard.dataset.round = match.round;
+                matchCard.dataset.teams = `${match.team1.name},${match.team2.name}`;
+                matchCard.dataset.match = match.matchNumber;
+                matchCard.innerHTML = `
+                    <div class="team-name">${match.team1.name}</div>
+                    <div class="score-block">
+                        <img src="${match.team1.logo}" class="logo" alt="${match.team1.name} Logo">
+                        <div class="score">${match.score}</div>
+                        <img src="${match.team2.logo}" class="logo" alt="${match.team2.name} Logo">
+                    </div>
+                    <div class="team-name">${match.team2.name}</div>
+                `;
+                matchList.appendChild(matchCard);
+            });
+            updateSubtitlesAndNoData(matches);
+        }
+
+        function renderClubFilter(clubs) {
+            const clubFilter = document.getElementById('club-filter');
+            clubFilter.innerHTML = '';
+            clubs.forEach(club => {
+                const clubItem = document.createElement('div');
+                clubItem.className = 'club-item';
+                clubItem.innerHTML = `
+                    <img src="${club.logo}" data-club="${club.name}" alt="${club.name} Logo">
+                    <span class="club-name">${club.name}</span>
+                `;
+                clubFilter.appendChild(clubItem);
+            });
+        }
+
+        function updateSubtitlesAndNoData(matches) {
+            const dateSubtitle = document.getElementById('date-subtitle');
+            const roundSubtitle = document.getElementById('round-subtitle');
+            const noDataMessage = document.getElementById('no-data');
+            if (matches.length > 0) {
+                dateSubtitle.style.display = 'block';
+                roundSubtitle.style.display = 'block';
+                noDataMessage.style.display = 'none';
+            } else {
+                dateSubtitle.style.display = 'none';
+                roundSubtitle.style.display = 'none';
+                noDataMessage.style.display = 'block';
+            }
+        }
+
+        // Date filter
+        const dateSelector = document.getElementById('date-selector');
+        const prevDate = document.getElementById('prev-date');
+        const nextDate = document.getElementById('next-date');
+        const dates = Array.from(dateSelector.options).map(opt => opt.value);
+        let currentDateIndex = 0;
+
+        function formatDate(dateStr) {
+            if (dateStr === 'all') return 'Semua Tanggal';
+            const date = new Date(dateStr);
+            const day = date.getDate();
+            const month = date.toLocaleString('id-ID', { month: 'long' });
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+
+        function filterByDate(date) {
+            const filteredMatches = date === 'all' ? matchesData : matchesData.filter(match => match.date === date);
+            renderMatches(filteredMatches);
+            const dateSubtitle = document.getElementById('date-subtitle');
+            dateSubtitle.textContent = formatDate(date);
+        }
+
+        prevDate.addEventListener('click', () => {
+            if (currentDateIndex > 0) {
+                currentDateIndex--;
+                dateSelector.selectedIndex = currentDateIndex;
+                filterByDate(dates[currentDateIndex]);
+            }
+        });
+
+        nextDate.addEventListener('click', () => {
+            if (currentDateIndex < dates.length - 1) {
+                currentDateIndex++;
+                dateSelector.selectedIndex = currentDateIndex;
+                filterByDate(dates[currentDateIndex]);
+            }
+        });
+
+        dateSelector.addEventListener('change', () => {
+            currentDateIndex = dateSelector.selectedIndex;
+            filterByDate(dates[currentDateIndex]);
+        });
+
+        // Round filter with scroll
+        const tabNav = document.querySelector('.tab-nav');
+        const scrollLeftBtn = document.querySelector('.scroll-left');
+        const scrollRightBtn = document.querySelector('.scroll-right');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        function updateScrollButtons() {
+            scrollLeftBtn.style.display = tabNav.scrollLeft > 0 ? 'block' : 'none';
+            scrollRightBtn.style.display = tabNav.scrollLeft < tabNav.scrollWidth - tabNav.clientWidth ? 'block' : 'none';
+        }
+
+        scrollLeftBtn.addEventListener('click', () => {
+            tabNav.scrollBy({ left: -100, behavior: 'smooth' });
+            setTimeout(updateScrollButtons, 300);
+        });
+
+        scrollRightBtn.addEventListener('click', () => {
+            tabNav.scrollBy({ left: 100, behavior: 'smooth' });
+            setTimeout(updateScrollButtons, 300);
+        });
+
+        tabNav.addEventListener('scroll', updateScrollButtons);
+        window.addEventListener('resize', updateScrollButtons);
+        updateScrollButtons();
+
+        function filterByRound(round) {
+            const filteredMatches = round === 'all' ? matchesData : matchesData.filter(match => match.round === round);
+            renderMatches(filteredMatches);
+            const roundSubtitle = document.getElementById('round-subtitle');
+            roundSubtitle.textContent = round === 'all' ? 'Semua Babak' : `${round} - Pertandingan ${filteredMatches[0]?.matchNumber || ''}`;
+        }
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const round = btn.dataset.round;
+                filterByRound(round);
+            });
+        });
+
+        // Club filter
+        function initializeClubFilter() {
+            const clubItems = document.querySelectorAll('.club-filter .club-item');
+            let selectedClub = null;
+            clubItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    clubItems.forEach(i => i.querySelector('img').classList.remove('selected'));
+                    item.querySelector('img').classList.add('selected');
+                    selectedClub = item.querySelector('img').dataset.club;
+                });
+            });
+            return () => selectedClub;
+        }
+
+        // Apply filter
+        function initializeFilters() {
+            const applyFilter = document.getElementById('apply-filter');
+            const getSelectedClub = initializeClubFilter();
+            applyFilter.addEventListener('click', () => {
+                const selectedDate = dateSelector.value;
+                const selectedRound = document.querySelector('.tab-btn.active').dataset.round;
+                const selectedClub = getSelectedClub();
+                let filteredMatches = matchesData;
+                if (selectedDate !== 'all') {
+                    filteredMatches = filteredMatches.filter(match => match.date === selectedDate);
+                }
+                if (selectedRound !== 'all') {
+                    filteredMatches = filteredMatches.filter(match => match.round === selectedRound);
+                }
+                if (selectedClub) {
+                    filteredMatches = filteredMatches.filter(match => match.team1.name === selectedClub || match.team2.name === selectedClub);
+                }
+                renderMatches(filteredMatches);
+                const dateSubtitle = document.getElementById('date-subtitle');
+                dateSubtitle.textContent = formatDate(selectedDate);
+                const roundSubtitle = document.getElementById('round-subtitle');
+                roundSubtitle.textContent = selectedRound === 'all' ? 'Semua Babak' : `${selectedRound} - Pertandingan ${filteredMatches[0]?.matchNumber || ''}`;
+                filterModal.style.display = 'none';
+            });
+
+            // Reset filter
+            const resetFilter = document.getElementById('reset-filter');
+            resetFilter.addEventListener('click', () => {
+                dateSelector.selectedIndex = 0;
+                currentDateIndex = 0;
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabButtons[0].classList.add('active');
+                const clubItems = document.querySelectorAll('.club-filter .club-item');
+                clubItems.forEach(item => item.querySelector('img').classList.remove('selected'));
+                renderMatches(matchesData);
+                const dateSubtitle = document.getElementById('date-subtitle');
+                dateSubtitle.textContent = 'Semua Tanggal';
+                const roundSubtitle = document.getElementById('round-subtitle');
+                roundSubtitle.textContent = 'Semua Babak';
+                document.getElementById('no-data').style.display = 'none';
+                filterModal.style.display = 'none';
+            });
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', fetchMatches);
+    </script>
+</body>
+</html>
