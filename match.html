@@ -85,13 +85,6 @@
             height: 24px;
         }
 
-        .subtitle {
-            font-size: 0.9em;
-            color: #94a3b8;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
         .no-data {
             font-size: 1em;
             color: #e2e8f0;
@@ -292,6 +285,30 @@
             background: #475569;
         }
 
+        .round-section {
+            margin-bottom: 32px;
+        }
+
+        .round-header {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #facc15;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .date-section {
+            margin-bottom: 24px;
+        }
+
+        .date-header {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
         @media (max-width: 700px) {
             .match-card {
                 padding: 12px;
@@ -324,6 +341,14 @@
 
             .scroll-btn {
                 display: block;
+            }
+
+            .round-header {
+                font-size: 1.3em;
+            }
+
+            .date-header {
+                font-size: 1em;
             }
         }
     </style>
@@ -373,10 +398,7 @@
                     Filter
                 </button>
             </div>
-            <div id="round-subtitle" class="subtitle">Semua Babak</div>
-            <div id="date-subtitle" class="subtitle">Semua Tanggal</div>
             <div id="no-data" class="no-data">Data tidak ditemukan</div>
-
             <div id="match-list"></div>
         </div>
     </section>
@@ -458,33 +480,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark border-t border-secondary py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <i class="fas fa-trophy text-primary text-xl"></i>
-                    <span class="font-bold">Piala Dunia Antarklub FIFA 2025</span>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="mt-6 text-center text-sm text-gray-500">
-                © 2025 FIFA - Hak Cipta Dilindungi
-            </div>
-        </div>
-    </footer>
+   
 
     <script>
         // Mobile menu toggle
@@ -533,33 +529,112 @@
             } catch (error) {
                 console.error('Error loading matches:', error);
                 document.getElementById('no-data').style.display = 'block';
-                document.getElementById('round-subtitle').style.display = 'none';
-                document.getElementById('date-subtitle').style.display = 'none';
             }
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = date.getDate();
+            const month = date.toLocaleString('id-ID', { month: 'long' });
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
         }
 
         function renderMatches(matches) {
             const matchList = document.getElementById('match-list');
+            const noDataMessage = document.getElementById('no-data');
             matchList.innerHTML = '';
-            matches.forEach(match => {
-                const matchCard = document.createElement('div');
-                matchCard.className = 'match-card';
-                matchCard.dataset.date = match.date;
-                matchCard.dataset.round = match.round;
-                matchCard.dataset.teams = `${match.team1.name},${match.team2.name}`;
-                matchCard.dataset.match = match.matchNumber;
-                matchCard.innerHTML = `
-                    <div class="team-name">${match.team1.name}</div>
-                    <div class="score-block">
-                        <img src="${match.team1.logo}" class="logo" alt="${match.team1.name} Logo">
-                        <div class="score">${match.score}</div>
-                        <img src="${match.team2.logo}" class="logo" alt="${match.team2.name} Logo">
-                    </div>
-                    <div class="team-name">${match.team2.name}</div>
-                `;
-                matchList.appendChild(matchCard);
+
+            if (matches.length === 0) {
+                noDataMessage.style.display = 'block';
+                return;
+            } else {
+                noDataMessage.style.display = 'none';
+            }
+
+            // Define round order
+            const roundOrder = [
+                'Penyisihan Grup',
+                'Babak 16 Besar',
+                'Perempat Final',
+                'Semi-final',
+                'Final'
+            ];
+
+            // Group matches by round
+            const matchesByRound = matches.reduce((acc, match) => {
+                if (!acc[match.round]) {
+                    acc[match.round] = [];
+                }
+                acc[match.round].push(match);
+                return acc;
+            }, {});
+
+            // Sort rounds according to roundOrder
+            roundOrder.forEach(round => {
+                if (matchesByRound[round]) {
+                    // Sort matches within each round by date
+                    matchesByRound[round].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                    // Create round section
+                    const roundSection = document.createElement('div');
+                    roundSection.className = 'round-section';
+                    const roundHeader = document.createElement('h3');
+                    roundHeader.className = 'round-header';
+                    roundHeader.textContent = round;
+                    roundSection.appendChild(roundHeader);
+
+                    // Group matches by date within the round
+                    const matchesByDate = matchesByRound[round].reduce((acc, match) => {
+                        if (!acc[match.date]) {
+                            acc[match.date] = [];
+                        }
+                        acc[match.date].push(match);
+                        return acc;
+                    }, {});
+
+                    // Sort dates
+                    const sortedDates = Object.keys(matchesByDate).sort((a, b) => new Date(a) - new Date(b));
+
+                    // Create date sections
+                    sortedDates.forEach(date => {
+                        const dateSection = document.createElement('div');
+                        dateSection.className = 'date-section';
+                        const dateHeader = document.createElement('h4');
+                        dateHeader.className = 'date-header';
+                        // Show "Pertandingan X" only for Penyisihan Grup
+                        const matchNumber = matchesByDate[date][0].matchNumber;
+                        dateHeader.textContent = round === 'Penyisihan Grup' 
+                            ? `${formatDate(date)} - Pertandingan ${matchNumber}`
+                            : formatDate(date);
+                        dateSection.appendChild(dateHeader);
+
+                        // Add matches for this date
+                        matchesByDate[date].forEach(match => {
+                            const matchCard = document.createElement('div');
+                            matchCard.className = 'match-card';
+                            matchCard.dataset.date = match.date;
+                            matchCard.dataset.round = match.round;
+                            matchCard.dataset.teams = `${match.team1.name},${match.team2.name}`;
+                            matchCard.dataset.match = match.matchNumber;
+                            matchCard.innerHTML = `
+                                <div class="team-name">${match.team1.name}</div>
+                                <div class="score-block">
+                                    <img src="${match.team1.logo}" class="logo" alt="${match.team1.name} Logo">
+                                    <div class="score">${match.score}</div>
+                                    <img src="${match.team2.logo}" class="logo" alt="${match.team2.name} Logo">
+                                </div>
+                                <div class="team-name">${match.team2.name}</div>
+                            `;
+                            dateSection.appendChild(matchCard);
+                        });
+
+                        roundSection.appendChild(dateSection);
+                    });
+
+                    matchList.appendChild(roundSection);
+                }
             });
-            updateSubtitlesAndNoData(matches);
         }
 
         function renderClubFilter(clubs) {
@@ -576,21 +651,6 @@
             });
         }
 
-        function updateSubtitlesAndNoData(matches) {
-            const dateSubtitle = document.getElementById('date-subtitle');
-            const roundSubtitle = document.getElementById('round-subtitle');
-            const noDataMessage = document.getElementById('no-data');
-            if (matches.length > 0) {
-                dateSubtitle.style.display = 'block';
-                roundSubtitle.style.display = 'block';
-                noDataMessage.style.display = 'none';
-            } else {
-                dateSubtitle.style.display = 'none';
-                roundSubtitle.style.display = 'none';
-                noDataMessage.style.display = 'block';
-            }
-        }
-
         // Date filter
         const dateSelector = document.getElementById('date-selector');
         const prevDate = document.getElementById('prev-date');
@@ -598,20 +658,9 @@
         const dates = Array.from(dateSelector.options).map(opt => opt.value);
         let currentDateIndex = 0;
 
-        function formatDate(dateStr) {
-            if (dateStr === 'all') return 'Semua Tanggal';
-            const date = new Date(dateStr);
-            const day = date.getDate();
-            const month = date.toLocaleString('id-ID', { month: 'long' });
-            const year = date.getFullYear();
-            return `${day} ${month} ${year}`;
-        }
-
         function filterByDate(date) {
             const filteredMatches = date === 'all' ? matchesData : matchesData.filter(match => match.date === date);
             renderMatches(filteredMatches);
-            const dateSubtitle = document.getElementById('date-subtitle');
-            dateSubtitle.textContent = formatDate(date);
         }
 
         prevDate.addEventListener('click', () => {
@@ -663,8 +712,6 @@
         function filterByRound(round) {
             const filteredMatches = round === 'all' ? matchesData : matchesData.filter(match => match.round === round);
             renderMatches(filteredMatches);
-            const roundSubtitle = document.getElementById('round-subtitle');
-            roundSubtitle.textContent = round === 'all' ? 'Semua Babak' : `${round} - Pertandingan ${filteredMatches[0]?.matchNumber || ''}`;
         }
 
         tabButtons.forEach(btn => {
@@ -709,10 +756,6 @@
                     filteredMatches = filteredMatches.filter(match => match.team1.name === selectedClub || match.team2.name === selectedClub);
                 }
                 renderMatches(filteredMatches);
-                const dateSubtitle = document.getElementById('date-subtitle');
-                dateSubtitle.textContent = formatDate(selectedDate);
-                const roundSubtitle = document.getElementById('round-subtitle');
-                roundSubtitle.textContent = selectedRound === 'all' ? 'Semua Babak' : `${selectedRound} - Pertandingan ${filteredMatches[0]?.matchNumber || ''}`;
                 filterModal.style.display = 'none';
             });
 
@@ -726,10 +769,6 @@
                 const clubItems = document.querySelectorAll('.club-filter .club-item');
                 clubItems.forEach(item => item.querySelector('img').classList.remove('selected'));
                 renderMatches(matchesData);
-                const dateSubtitle = document.getElementById('date-subtitle');
-                dateSubtitle.textContent = 'Semua Tanggal';
-                const roundSubtitle = document.getElementById('round-subtitle');
-                roundSubtitle.textContent = 'Semua Babak';
                 document.getElementById('no-data').style.display = 'none';
                 filterModal.style.display = 'none';
             });
