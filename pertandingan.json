@@ -1,27 +1,30 @@
 {
   "matches": [
     {
-      "date": null,
-      "round": null,
-      "matchNumber": null,
+      "date": "2025-06-15",
+      "round": "Penyisihan Grup",
+      "matchNumber": 1,
       "team1": {
-        "name": null,
-        "score": null,
-        "logo": null
+        "name": "Al-Ahly",
+        "score": 0,
+        "logo": "https://upload.wikimedia.org/wikipedia/en/7/70/Al_Ahly_SC_logo.svg"
       },
       "team2": {
-        "name": null,
-        "score": null,
-        "logo": null
+        "name": "Inter Miami",
+        "score": 0,
+        "logo": "https://upload.wikimedia.org/wikipedia/en/5/5c/Inter_Miami_CF_logo.svg"
       },
-      "score": null
+      "score": "0-0"
     }
   ],
-
   "clubs": [
     {
-      "name": null,
-      "logo": null
+      "name": "Al-Ahly",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/7/70/Al_Ahly_SC_logo.svg"
+    },
+    {
+      "name": "Inter Miami",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/5/5c/Inter_Miami_CF_logo.svg"
     }
   ]
 }
